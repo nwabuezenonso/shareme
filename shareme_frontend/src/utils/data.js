@@ -162,6 +162,7 @@ export const categories = [
     return query;
   };
   
+  // creating a query to get user
   export const userQuery = (userId) => {
     const query = `*[_type == "user" && _id == '${userId}']`;
     return query;

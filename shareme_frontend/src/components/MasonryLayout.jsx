@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const MasonryLayout = () => {
+const MasonryLayout = () => {
   return (
     <div>MasonryLayout</div>
   )
 }
+
+export default MasonryLayout
