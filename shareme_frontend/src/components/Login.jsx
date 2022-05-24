@@ -19,6 +19,7 @@ const Login = () => {
     userName: name,
     image: imageUrl,
     };
+    // create a client if the data does not exist and navigate to home routes
     client.createIfNotExists(doc).then(() => {
     navigate('/', { replace: true });
     });
