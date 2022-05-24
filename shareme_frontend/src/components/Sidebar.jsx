@@ -1,8 +1,30 @@
-import React from 'react'
+import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
+import { RiHomeFIll } from 'react-icons/ri';
+import { IoIosArrowForward } from 'react-icons/io';
 
-const Sidebar = () => {
+import logo from '../assets/logo.png'
+
+const Sidebar = ({ user, closeToggle}) => {
+
+  const handleCloseSidebar = () => {
+    if(closeToggle) closeToggle(false)
+  }
   return (
-    <div>Sidebar</div>
+    <div className="flex flex-col justify-between bg-white h-full overflow-y-scroll min-w-210 hide-scrollbar">
+      <div className="flex flex-col">
+        <Link
+          to="/"
+          className="flex px-5 gap-2 my-6 pt-1 w-190 items-center"
+          onClick={handleCloseSidebar}
+        >
+          <img src={logo} alt="logo" className='w-full' />
+        </Link>
+        <div className='flex flex-col gap-5'>
+
+        </div>
+      </div>
+    </div>
   )
 }
 
