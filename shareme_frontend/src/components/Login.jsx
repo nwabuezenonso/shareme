@@ -1,30 +1,20 @@
 import React from 'react';
 import GoogleLogin from 'react-google-login';   // google login library
-import { useNavigate } from 'react-router-dom';  // import use navigate from react router
-import { FcGoogle } from 'react-icons/fc';
-import shareVideo from '../assets/share.mp4';
-import logo from '../assets/logowhite.png';
+import { useNavigate } from 'react-router-dom';  // import use navigate to simply navigation
+import { FcGoogle } from 'react-icons/fc';   // google logo
+import shareVideo from '../assets/share.mp4'; // importing video
+import logo from '../assets/logowhite.png'; // importing logo
 
-import { client } from '../client';
+import { client } from '../client';  // import sanity client
 
 const Login = () => {
   const navigate = useNavigate();
-  const responseGoogle = (response) => {
-    localStorage.setItem('user', JSON.stringify(response.profileObj));
-    const { name, googleId, imageUrl } = response.profileObj;
-    // create a data that will be stored for sanity
-    const doc = {
-    _id: googleId,
-    _type: 'user',
-    userName: name,
-    image: imageUrl,
-    };
-    // create a client if the data does not exist and navigate to home routes
-    client.createIfNotExists(doc).then(() => {
-    navigate('/', { replace: true });
-    });
-};
 
+  // response google function
+  const responseGoogle = (response) => {
+    console.log(response)
+};
+  // styling the 
   return (
     <div className="flex justify-start items-center flex-col h-screen">
       <div className=" relative w-full h-full">
@@ -38,13 +28,14 @@ const Login = () => {
           className="w-full h-full object-cover"
         />
 
-        <div className="absolute flex flex-col justify-center items-center top-0 right-0 left-0 bottom-0    bg-blackOverlay">
+        <div className="absolute flex flex-col justify-center items-center top-0 right-0 left-0 bottom-0 bg-blackOverlay">
           <div className="p-5">
             <img src={logo} width="130px" />
           </div>
 
-        {/* render props comin from the google button */}
+          {/* render props comin from the google button */}
           <div className="shadow-2xl">
+            {/* get data from google */}
             <GoogleLogin
               clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}
               render={(renderProps) => (
