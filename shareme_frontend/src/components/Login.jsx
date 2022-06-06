@@ -1,19 +1,38 @@
-import React from 'react';
-import GoogleLogin from 'react-google-login';   // google login library
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';  // import use navigate to simply navigation
-import { FcGoogle } from 'react-icons/fc';   // google logo
 import shareVideo from '../assets/share.mp4'; // importing video
 import logo from '../assets/logowhite.png'; // importing logo
 
 import { client } from '../client';  // import sanity client
 
 const Login = () => {
+  const [ email, setEmail] = useState([])
   const navigate = useNavigate();
 
+  const handleChange = (e) =>{
+    setEmail(e.target.value)
+  }
+
   // response google function
-  const responseGoogle = (response) => {
-    console.log(response)
-};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+   localStorage.setItem('user', JSON.stringify(email))
+
+    const id = Math.floor(Math.random() * 10)
+    
+    const doc = {
+      _type: 'user',
+      _id: id,
+      userName: email
+    }
+
+    client.createIfNotExists(doc)
+      .then(() => {
+        navigate('/', {replace: true})
+        console.log('success')
+    })
+  };
   // styling the 
   return (
     <div className="flex justify-start items-center flex-col h-screen">
@@ -30,28 +49,22 @@ const Login = () => {
 
         <div className="absolute flex flex-col justify-center items-center top-0 right-0 left-0 bottom-0 bg-blackOverlay">
           <div className="p-5">
-            <img src={logo} width="130px" />
+            <img src={logo} width="130px" alt='logo' />
           </div>
 
           {/* render props comin from the google button */}
           <div className="shadow-2xl">
             {/* get data from google */}
-            <GoogleLogin
-              clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}
-              render={(renderProps) => (
+            <form className='flex mr-30' onSubmit={ handleSubmit }>
+              <input name='signin' onChange={ handleChange } type="text"className='bg-mainColor flex items-center p-3 rounded-lg outline-none' />
+              {/* <Link> */}
                 <button
-                  type="button"
-                  className="bg-mainColor flex justify-center items-center p-3 rounded-lg cursor-pointer outline-none"
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
+                className='opacity-100 bg-black text-white p-4 mx-2'
                 >
-                  <FcGoogle className="mr-4" /> Sign in with google
+                  Sign in
                 </button>
-              )}
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy="single_host_origin"
-            />
+              {/* </Link> */}
+            </form>
           </div>
         </div>
       </div>
